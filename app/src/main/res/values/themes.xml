@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base theme for the application, used in the Android Manifest -->
+    <style name="Theme.MeusGastos" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- Customize your theme here if needed in XML, though Compose handles the UI -->
+    </style>
+</resources>
