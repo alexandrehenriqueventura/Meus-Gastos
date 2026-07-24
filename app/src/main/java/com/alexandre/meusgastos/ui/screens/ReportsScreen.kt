@@ -7,8 +7,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.alexandre.meusgastos.ui.viewmodel.ExpenseViewModel
 import com.patrykandpatrick.vico.compose.cartesian.CartesianChartHost
-import com.patrykandpatrick.vico.compose.cartesian.axis.rememberBottomAxis
-import com.patrykandpatrick.vico.compose.cartesian.axis.rememberStartAxis
+import com.patrykandpatrick.vico.compose.cartesian.axis.rememberBottom
+import com.patrykandpatrick.vico.compose.cartesian.axis.rememberStart
+import com.patrykandpatrick.vico.core.cartesian.axis.HorizontalAxis
+import com.patrykandpatrick.vico.core.cartesian.axis.VerticalAxis
 import com.patrykandpatrick.vico.compose.cartesian.layer.rememberColumnCartesianLayer
 import com.patrykandpatrick.vico.compose.cartesian.rememberCartesianChart
 import com.patrykandpatrick.vico.core.cartesian.data.CartesianChartModelProducer
@@ -29,9 +31,9 @@ fun ReportsScreen(viewModel: ExpenseViewModel) {
     val dailyTotals by viewModel.dailyTotals(periodStart, periodEnd).collectAsState()
     val categoryTotals by viewModel.categoryTotals(periodStart, periodEnd).collectAsState()
 
-    val chartModelProducer = remember { CartesianChartModelProducer.build() }
+    val chartModelProducer = remember { CartesianChartModelProducer() }
     LaunchedEffect(dailyTotals) {
-        chartModelProducer.tryRunTransaction {
+        chartModelProducer.runTransaction {
             columnSeries { series(dailyTotals.map { it.total }) }
         }
     }
@@ -56,8 +58,8 @@ fun ReportsScreen(viewModel: ExpenseViewModel) {
                 CartesianChartHost(
                     chart = rememberCartesianChart(
                         rememberColumnCartesianLayer(),
-                        startAxis = rememberStartAxis(),
-                        bottomAxis = rememberBottomAxis(),
+                        startAxis = VerticalAxis.rememberStart(),
+                        bottomAxis = HorizontalAxis.rememberBottom(),
                     ),
                     modelProducer = chartModelProducer,
                     modifier = Modifier.fillMaxWidth().height(200.dp)
